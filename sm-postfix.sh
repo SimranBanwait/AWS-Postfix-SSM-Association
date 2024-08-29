@@ -28,7 +28,7 @@ ip_address=$(hostname -I | awk '{print $1}')
 
 from="DevOps@firminiq.com"
 to="awsalert.staging@ohiomron.com"
-subject="Simran Testing---- US STG - SMTP Credentials Updated $hostname"
+subject="Test Secret Manager ---- US STG - SMTP Credentials Updated $hostname"
 body="SMTP Credentials has been updated for server: $hostname (IP: $ip_address)"
 
 sendmail -v -f "$from" "$to" <<EOF
