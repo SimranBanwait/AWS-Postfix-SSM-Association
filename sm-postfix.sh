@@ -10,15 +10,15 @@ SMTP_PASSWORD=$(echo "$SECRET_VALUE" | grep -o '"Password":"[^"]*' | sed 's/"Pas
 
 echo "New Credentials"
 echo "SMTP Username: $SMTP_USERNAME"
-echo "SMTP Password: (Hidden for Security)"
+echo "SMTP Password: (Hidden for security)"
 
-# sudo rm /etc/postfix/sasl_passwd.db
 
 echo "$SES_REGION $SMTP_USERNAME:$SMTP_PASSWORD" | sudo tee /etc/postfix/sasl_passwd > /dev/null
 
 sudo postmap /etc/postfix/sasl_passwd
-sudo chmod 600 /etc/postfix/sasl_passwd.db
 sudo rm /etc/postfix/sasl_passwd
+sudo chown root:root /etc/postfix/sasl_passwd.db
+sudo chmod 0600 /etc/postfix/sasl_passwd.db
 sudo systemctl reload postfix
 
 
@@ -28,7 +28,7 @@ ip_address=$(hostname -I | awk '{print $1}')
 
 from="DevOps@firminiq.com"
 to="awsalert.staging@ohiomron.com"
-subject="Testing | US STG - SMTP Credentials Updated $hostname"
+subject="Simran Testing---- US STG - SMTP Credentials Updated $hostname"
 body="SMTP Credentials has been updated for server: $hostname (IP: $ip_address)"
 
 sendmail -v -f "$from" "$to" <<EOF

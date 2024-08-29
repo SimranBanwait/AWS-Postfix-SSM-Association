@@ -13,23 +13,18 @@ IFS=':' read -r SMTP_USERNAME SMTP_PASSWORD <<< "$CREDENTIALS"
 
 echo "New Credentials"
 echo "SMTP Username: $SMTP_USERNAME"
-echo "SMTP Password: (hidden for security)"
+echo "SMTP Password: (Hidden for security)"
 
 # Create sasl_passwd file with credentials and region
 echo "$SES_REGION $SMTP_USERNAME:$SMTP_PASSWORD" | sudo tee /etc/postfix/sasl_passwd > /dev/null
 
-# Generate sasl_passwd.db from sasl_passwd
+# Generate sasl_passwd.db from sasl_passwd and Secure file permissions
 sudo postmap /etc/postfix/sasl_passwd
-
-# Secure file permissions
-sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
-sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
-
-# Reload postfix service
+sudo rm /etc/postfix/sasl_passwd
+sudo chown root:root /etc/postfix/sasl_passwd.db
+sudo chmod 0600 /etc/postfix/sasl_passwd.db
 sudo systemctl reload postfix
 
-# Send Email notification (optional, modify details as needed)
-# ... (rest of the script for sending email notification remains the same)
 
 # Send Email
 hostname=$(hostname)
@@ -37,7 +32,7 @@ ip_address=$(hostname -I | awk '{print $1}')
 
 from="DevOps@firminiq.com"
 to="awsalert.staging@ohiomron.com"
-subject="Testing------------ US DEV - SMTP Credentials Updated $hostname"
+subject="Simran Testing---- US DEV - SMTP Credentials Updated $hostname"
 body="SMTP Credentials has been updated for server: (IP: $ip_address)"
 
 sendmail -v -f "$from" "$to" <<EOF
