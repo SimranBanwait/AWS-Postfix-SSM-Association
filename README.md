@@ -127,7 +127,6 @@ Check if the SMTP Credential update activity is done properly,
 We can confirm this by checking the email alerts of all the ec2 servers.
 Make Sure to match the alerts for all servers mentioned in above section of the runbook. 
 
-![Step 5](./Images/Step-5.png)
 
 ![Step 55](./Images/Step-55.png)
 
@@ -157,6 +156,9 @@ Finally we can see our latest keys are working fine
 
 ![Step 6666](./Images/Step-6666.png)
 
+## Precautionary Measure
+
+We also have a recovery scritp for which we can create another SSM association which can be executed if the main setup script fails to update the new credentials. This recovery script recovers the previously applied credentials which was backed up right when the main script starts.
 
 ## Security Note
 The scripts automatically delete the plain-text `/etc/postfix/sasl_passwd` file after generating the `.db` hash map to minimize exposure of sensitive credentials on the file system.
