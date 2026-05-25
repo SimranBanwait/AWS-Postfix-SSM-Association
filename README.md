@@ -1,6 +1,5 @@
 # AWS Postfix SES Credential Automation
 
-![Infrastructure Architecture](./SSM.jpg)
 
 ## Overview
 
